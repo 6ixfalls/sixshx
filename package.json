@@ -10,7 +10,7 @@
     "build:copy": "copyfiles -u 1 src/**/*.pug dist/"
   },
   "author": "6ixfalls",
-  "license": "ISC",
+  "license": "GNU GPLv3",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.76.0",
     "@prisma/client": "^3.13.0",
