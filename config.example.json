@@ -1,0 +1,22 @@
+{
+    "domain": {
+        "from": "http://example.com",
+        "port": 80
+    },
+    "s3": {
+        "accessUrl": "https://examples3server.com/",
+        "bucket": "yourbucketname",
+        "endpoint": "https://s3.amazonaws.com/",
+        "accessKey": "youraccesskey",
+        "secretKey": "yoursecretkey"
+    },
+    "discord": {
+        "token": "yourdiscordtoken",
+        "clientId": "yourdiscordclientid000",
+        "guildId": "yourdiscordguildid000",
+        "logChannel": "yourdiscordlogchannel000"
+    },
+    "jwt": {
+        "secret": "somerandomstring"
+    }
+}

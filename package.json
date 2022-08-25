@@ -1,0 +1,38 @@
+{
+  "name": "six-sharex",
+  "version": "1.0.0",
+  "description": "Personal ShareX server",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist/",
+    "test": "npm run build && cd dist/ && node index.js",
+    "build": "npm run clean && tsc && npm run build:copy",
+    "build:copy": "copyfiles -u 1 src/**/*.pug dist/"
+  },
+  "author": "6ixfalls",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.76.0",
+    "@prisma/client": "^3.13.0",
+    "@tsconfig/node16": "^1.0.2",
+    "discord.js": "^13.6.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "luxon": "^2.3.2",
+    "multer": "^1.4.4",
+    "node-vibrant": "^3.2.1-alpha.1",
+    "pino": "^7.10.0",
+    "pino-http": "^6.6.0",
+    "pino-pretty": "^7.6.1",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/luxon": "^2.3.1",
+    "@types/multer": "^1.4.7",
+    "copyfiles": "^2.4.1",
+    "prisma": "^3.13.0",
+    "rimraf": "^3.0.2"
+  }
+}

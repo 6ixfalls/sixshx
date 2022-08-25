@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `files` ADD COLUMN `timezone` VARCHAR(191) NOT NULL DEFAULT 'UTC+0';

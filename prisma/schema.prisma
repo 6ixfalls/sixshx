@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  username          String    @unique
+  token             String    @unique
+  files             File[]
+
+  @@map("users")
+}
+
+model File {
+  id                String    @id @default(cuid())
+  mimetype          String
+  extension         String
+  originalName      String    @map("original_name")
+  slug              String    @unique
+  deleteToken       String    @unique @default(cuid()) @map("delete_token")
+  vibrant           String
+  size              Int
+  createdAt         DateTime  @default(now()) @map("created_at")
+  opengraphAuthor   String
+  opengraphProvider String
+  uid               Int
+  user              User      @relation(fields: [uid], references: [id])
+  timezone          String    @default("UTC+0")
+
+  @@map("files")
+}
