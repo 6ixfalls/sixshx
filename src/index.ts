@@ -1,10 +1,10 @@
 import express from "express";
+import helmet from "helmet";
 import fs from "fs";
 import logger from "./logger";
 import Bot from "./bot";
 import prisma from "./database";
-
-const config = require("../config.json");
+import config from "./config";
 
 const app = express();
 const client = Bot.getInstance();
@@ -12,6 +12,7 @@ const client = Bot.getInstance();
 app.enable("case sensitive routing");
 app.disable("x-powered-by");
 app.set("view engine", "pug");
+app.use(helmet());
 
 const routerFiles = fs
     .readdirSync("./routers")

@@ -6,8 +6,7 @@ import {
 import { Command } from "../Command";
 import prisma from "../database";
 import jwt from "jsonwebtoken";
-
-const config = require("../../config.json");
+import config from "../config";
 
 export default {
     name: "adduser",

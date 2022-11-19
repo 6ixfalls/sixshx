@@ -5,7 +5,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { File } from "@prisma/client";
 import logger from "./logger";
-const config = require("../config.json");
+import config from "./config";
 
 const s3 = new S3Client({
     forcePathStyle: false,

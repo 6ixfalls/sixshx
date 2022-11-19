@@ -1,8 +1,7 @@
 import { Client, Collection, Intents } from "discord.js";
 import fs from "fs";
 import logger from "./logger";
-
-const config = require("../config.json");
+import config from "./config";
 
 export default class Bot {
     private static instance: Bot;

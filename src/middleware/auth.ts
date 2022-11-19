@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import prisma from "../database";
 import { ShareXRequest } from "../types";
-
-const config = require("../../config.json");
+import config from "../config";
 
 export default async (
     req: ShareXRequest,

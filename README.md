@@ -1,7 +1,7 @@
 # Six-ShareX Server
 Simple ShareX server with uploading and sharing. S3 supported, the file host has to be hosted seperately; this only handles file uploads, embeds and redirects.
 
-No support is provided; if you're looking to host this without experience, check out other projects on Github. All config variables are required. Copy `config.example.json` to `config.json`. Don't forget the Prisma `.env` config.
+No support is provided; if you're looking to host this without experience, check out other projects on Github. All config variables are required. ~~Copy `config.example.json` to `config.json`.~~ Don't forget the Prisma `.env` config.
 
 <sub>Copyright 2022 @6ixfalls</sub>
 

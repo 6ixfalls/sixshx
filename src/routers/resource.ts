@@ -6,8 +6,9 @@ import { deleteFile } from "../storage";
 import logger from "../logger";
 import { MessageEmbed, ColorResolvable, TextChannel } from "discord.js";
 import Bot from "../bot";
+import config from "../config";
+import { RateLimiterMemory } from "rate-limiter-flexible";
 
-const config = require("../../config.json");
 const client = Bot.getInstance().getClient();
 
 const router = Router();
@@ -69,52 +70,82 @@ router.param(
     }
 );
 
-router.get("/:slug", async (req: ShareXRequest, res: Response) => {
-    if (!req.requestFile) return res.status(404).send("File not found.");
-
-    const slug = decodeURIComponent(req.requestFile.slug);
-    const ogTags = [];
-
-    if (req.requestFile.mimetype.split("/")[0] === "image") {
-        ogTags.push(`<meta name="twitter:card" content="summary_large_image">`);
-    } else if (req.requestFile.mimetype.split("/")[0] === "video") {
-        ogTags.push(
-            `<meta name="twitter:card" content="player">`,
-            `<meta name="twitter:player:width" content="720">`,
-            `<meta name="twitter:player:height" content="480">`,
-            `<meta name="twitter:player:stream" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
-            `<meta name="twitter:player:stream:content_type" content="${req.requestFile.mimetype}">`,
-            `<meta property="og:url" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
-            `<meta property="og:video" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
-            `<meta property="og:video:secure_url" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
-            `<meta property="og:video:type" content="${req.requestFile.mimetype}">`,
-            `<meta name="og:video:width" content="720">`,
-            `<meta name="og:video:height" content="480">`
-        );
-    }
-    ogTags.push(
-        `<meta name="theme-color" content="${req.requestFile.vibrant}">`
-    );
-
-    const mime = req.requestFile.mimetype.split("/")[0];
-
-    res.render("preview", {
-        title: req.requestFile.originalName,
-        color: req.requestFile.vibrant,
-        discordUrl: `${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}`,
-        oembedUrl: `${config.domain.from}/${slug}/oembed`,
-        ogType:
-            mime === "video"
-                ? "video.other"
-                : mime === "image"
-                ? "image"
-                : "website",
-        urlType: `og:${
-            mime === "video" ? "video" : mime === "audio" ? "audio" : "image"
-        }`,
-        opengraph: ogTags.join("\n"),
-    });
+const rateLimiter = new RateLimiterMemory({
+    points: Number(config.rateLimit.points),
+    duration: Number(config.rateLimit.duration),
 });
+
+const rateLimiterMiddleware = (
+    req: ShareXRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    rateLimiter
+        .consume(req.ip)
+        .then(() => {
+            next();
+        })
+        .catch(() => {
+            res.status(429).send("Too Many Requests");
+        });
+};
+
+router.get(
+    "/:slug",
+    rateLimiterMiddleware,
+    async (req: ShareXRequest, res: Response) => {
+        if (!req.requestFile) return res.status(404).send("File not found.");
+
+        const slug = decodeURIComponent(req.requestFile.slug);
+        const ogTags = [];
+
+        if (req.requestFile.mimetype.split("/")[0] === "image") {
+            ogTags.push(
+                `<meta name="twitter:card" content="summary_large_image">`
+            );
+        } else if (req.requestFile.mimetype.split("/")[0] === "video") {
+            ogTags.push(
+                `<meta name="twitter:card" content="player">`,
+                `<meta name="twitter:player:width" content="720">`,
+                `<meta name="twitter:player:height" content="480">`,
+                `<meta name="twitter:player:stream" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
+                `<meta name="twitter:player:stream:content_type" content="${req.requestFile.mimetype}">`,
+                `<meta property="og:url" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
+                `<meta property="og:video" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
+                `<meta property="og:video:secure_url" content="${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}">`,
+                `<meta property="og:video:type" content="${req.requestFile.mimetype}">`,
+                `<meta name="og:video:width" content="720">`,
+                `<meta name="og:video:height" content="480">`
+            );
+        }
+        ogTags.push(
+            `<meta name="theme-color" content="${req.requestFile.vibrant}">`
+        );
+
+        const mime = req.requestFile.mimetype.split("/")[0];
+
+        res.render("preview", {
+            title: req.requestFile.originalName,
+            color: req.requestFile.vibrant,
+            discordUrl: `${config.s3.accessUrl}${req.requestFile.id}.${req.requestFile.extension}`,
+            oembedUrl: `${config.domain.from}/${slug}/oembed`,
+            ogType:
+                mime === "video"
+                    ? "video.other"
+                    : mime === "image"
+                    ? "image"
+                    : "website",
+            urlType: `og:${
+                mime === "video"
+                    ? "video"
+                    : mime === "audio"
+                    ? "audio"
+                    : "image"
+            }`,
+            opengraph: ogTags.join("\n"),
+        });
+    }
+);
 
 router.get("/:slug/oembed", async (req: ShareXRequest, res: Response) => {
     if (!req.requestFile) return res.status(404).send("File not found.");

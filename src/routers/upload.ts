@@ -14,6 +14,7 @@ import {
     TextChannel,
 } from "discord.js";
 import Bot from "../bot";
+import config from "../config";
 
 enum SLUG_TYPE {
     TEXT = "text",
@@ -21,7 +22,6 @@ enum SLUG_TYPE {
     ZEROWIDTH = "zerowidth",
 }
 
-const config = require("../../config.json");
 const client = Bot.getInstance().getClient();
 
 const router = Router();
