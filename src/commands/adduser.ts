@@ -20,6 +20,7 @@ export default {
             required: true,
         },
     ],
+    defaultMemberPermissions: ["ADMINISTRATOR"],
     run: async (client: Client, interaction: CommandInteraction) => {
         const user = await prisma.user.create({
             data: {

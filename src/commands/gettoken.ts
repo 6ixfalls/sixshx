@@ -20,6 +20,7 @@ export default {
             required: true,
         },
     ],
+    defaultMemberPermissions: ["ADMINISTRATOR"],
     run: async (client: Client, interaction: CommandInteraction) => {
         const foundUser = await prisma.user.findUnique({
             where: {
