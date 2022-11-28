@@ -10,7 +10,7 @@
         "downlevelIteration": true
     },
     "include": [
-        "src/**/*.pug",
+        "src/**/*.html",
         "src/**/*.ts"
     ]
 }

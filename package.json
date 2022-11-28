@@ -8,7 +8,7 @@
     "clean": "rimraf dist/",
     "test": "npm run build && cd dist/ && node index.js",
     "build": "npm run clean && tsc && npm run build:copy",
-    "build:copy": "copyfiles -u 1 src/**/*.pug dist/"
+    "build:copy": "copyfiles -u 1 src/**/*.html dist/"
   },
   "author": "6ixfalls",
   "license": "GNU GPLv3",
