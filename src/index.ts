@@ -18,6 +18,7 @@ app.use(
     helmet({
         contentSecurityPolicy: {
             directives: {
+                "default-src": ["'self'", "s3.sixfalls.me"],
                 "img-src": ["'self'", "data:", "s3.sixfalls.me"],
             },
         },
