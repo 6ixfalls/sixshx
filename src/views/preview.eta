@@ -13,10 +13,29 @@
             type="application/json+oembed"
         />
     </head>
-    <body style="margin: 0px; background: #0e0e0e; height: 100%">
+    <body style="margin: 0px; background: #0e0e0e; height: 100%; display: flex">
         <% if (it.ogType === "video.other" || it.urlType === "og:audio") { %>
-        <video controls="" autoplay="" name="media">
-            <source src="<%= it.discordUrl %>" type="<%= it.mimeType %>" />
+        <video
+            style="
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                left: 0px;
+                max-height: 100%;
+                max-width: 100%;
+                margin: auto;
+                object-fit: contain;
+            "
+            controls=""
+            autoplay=""
+            name="media"
+        >
+            <source
+                src="<%= it.discordUrl %>"
+                type="<%= it.mimeType %>"
+                crossorigin="anonymous"
+            />
         </video>
         <% } else if (it.ogType === "image") { %>
         <img
