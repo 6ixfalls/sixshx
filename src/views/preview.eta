@@ -7,7 +7,7 @@
         <meta property="<%= it.urlType %>" content="<%= it.discordUrl %>" />
         <% it.opengraph.forEach(function(tag) { %> <%~ tag %> <% }) %> <% if
         (it.ogType === "website" && it.urlType !== "og:audio") { %>
-        <meta http-equiv="refresh" content="`0;" url="<%= it.discordUrl %>" ` />
+        <meta http-equiv="refresh" content="0; url='<%= it.discordUrl %>'" />
         <% } %>
         <link
             href="<%= it.oembedUrl %>"
