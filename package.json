@@ -26,8 +26,8 @@
     "pino": "^7.10.0",
     "pino-http": "^6.6.0",
     "pino-pretty": "^7.6.1",
-    "pug": "^3.0.2",
-    "rate-limiter-flexible": "^2.4.1"
+    "rate-limiter-flexible": "^2.4.1",
+    "squirrelly": "^8.0.8"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

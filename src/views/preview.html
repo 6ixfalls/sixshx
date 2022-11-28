@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta name="viewport" content="width=device-width, minimum-scale=0.1" />
+        <title>{{it.title}}</title>
+        <meta property="og:type" content="{{it.ogType}}" />
+        <meta property="{{it.urlType}}" content="{{it.discordUrl}}" />
+        {{@each(it.meta) => tag}} {{tag | safe}} {{/each}}
+        <link
+            href="{{it.oembedUrl}}"
+            title="oEmbed"
+            rel="alternate"
+            type="application/json+oembed"
+        />
+    </head>
+    <body style="margin: 0px; background: #0e0e0e; height: 100%">
+        {{@if(it.ogType === "video.other" || it.urlType === "og:audio")}}
+        <video controls="" autoplay="" name="media">
+            <source src="{{it.discordUrl}}" type="{{it.mimeType}}" />
+        </video>
+        {{#else}} {{@if(it.ogType === "image")}}
+        <img
+            style="
+                display: block;
+                user-select: none;
+                margin: auto;
+                background-color: hsl(0, 0%, 90%);
+                transition: background-color 300ms;
+            "
+            src="{{it.discordUrl}}"
+        />
+        {{#else}} {{! window.location.href = it.discordUrl }}
+        <noscript>
+            Click <a href="{{it.discordUrl}}">here</a> to open the file.
+        </noscript>
+        {{/if}} {{/if}}
+    </body>
+</html>

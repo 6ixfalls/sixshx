@@ -142,7 +142,8 @@ router.get(
                     ? "audio"
                     : "image"
             }`,
-            opengraph: ogTags.join("\n"),
+            mimeType: req.requestFile.mimetype,
+            opengraph: ogTags,
         });
     }
 );
