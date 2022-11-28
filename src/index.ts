@@ -14,7 +14,15 @@ app.enable("case sensitive routing");
 app.disable("x-powered-by");
 app.engine("eta", eta.renderFile);
 app.set("view engine", "eta");
-app.use(helmet());
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                "img-src": ["'self'", "data:", "s3.sixfalls.me"],
+            },
+        },
+    })
+);
 
 const routerFiles = fs
     .readdirSync("./routers")
