@@ -30,12 +30,9 @@
             controls=""
             autoplay=""
             name="media"
+            crossorigin="anonymous"
         >
-            <source
-                src="<%= it.discordUrl %>"
-                type="<%= it.mimeType %>"
-                crossorigin="anonymous"
-            />
+            <source src="<%= it.discordUrl %>" type="<%= it.mimeType %>" />
         </video>
         <% } else if (it.ogType === "image") { %>
         <img
