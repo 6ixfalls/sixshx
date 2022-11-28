@@ -5,7 +5,10 @@
         <title><%= it.title %></title>
         <meta property="og:type" content="<%= it.ogType %>" />
         <meta property="<%= it.urlType %>" content="<%= it.discordUrl %>" />
-        <% it.opengraph.forEach(function(tag) { %> <%~ tag %> <% }) %>
+        <% it.opengraph.forEach(function(tag) { %> <%~ tag %> <% }) %> <% if
+        (it.ogType === "website" && it.urlType !== "og:audio") { %>
+        <meta http-equiv="refresh" content="`0;" url="<%= it.discordUrl %>" ` />
+        <% } %>
         <link
             href="<%= it.oembedUrl %>"
             title="oEmbed"
@@ -46,7 +49,10 @@
             crossorigin="anonymous"
             src="<%= it.discordUrl %>"
         />
-        <% } else { %> <% window.location.href = it.discordUrl %>
+        <% } else { %>
+        <script>
+            window.location.href = "<%= it.discordUrl %>";
+        </script>
         <noscript>
             Click <a href="<%= it.discordUrl %>">here</a> to open the file.
         </noscript>
