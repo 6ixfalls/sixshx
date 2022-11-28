@@ -1,7 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import fs from "fs";
-import squirrelly from "squirrelly";
+import * as eta from "eta";
 import logger from "./logger";
 import Bot from "./bot";
 import prisma from "./database";
@@ -12,7 +12,8 @@ const client = Bot.getInstance();
 
 app.enable("case sensitive routing");
 app.disable("x-powered-by");
-app.engine("html", squirrelly.renderFile);
+app.engine("eta", eta.renderFile);
+app.set("view engine", "eta");
 app.use(helmet());
 
 const routerFiles = fs

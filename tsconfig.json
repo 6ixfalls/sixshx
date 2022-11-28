@@ -10,7 +10,7 @@
         "downlevelIteration": true
     },
     "include": [
-        "src/**/*.html",
+        "src/**/*.eta",
         "src/**/*.ts"
     ]
 }
