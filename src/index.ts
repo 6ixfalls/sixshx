@@ -24,6 +24,7 @@ app.use(
         },
     })
 );
+app.set("trust proxy", true);
 
 const routerFiles = fs
     .readdirSync("./routers")
