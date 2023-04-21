@@ -37,6 +37,8 @@ nextApp.prepare().then(() => {
     );
     app.set("trust proxy", true);
 
+    app.use(cookieParser());
+
     const routerFiles = fs
         .readdirSync("./routers")
         .filter((file) => file.endsWith(".js"));
@@ -46,9 +48,7 @@ nextApp.prepare().then(() => {
         app.use(router);
     }
 
-    app.use(cookieParser());
-
-    app.get("/admin/*", (req, res) => {
+    app.get(/^\/admin($|\/)/, (req, res) => {
         return nextHandler(req, res);
     });
 
