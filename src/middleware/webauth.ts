@@ -9,7 +9,7 @@ export default async (
     res: Response,
     next: NextFunction
 ) => {
-    const token = req.headers.authorization;
+    const token = req.cookies.userToken;
 
     if (!token) {
         return res.status(401).json({
