@@ -45,12 +45,12 @@ nextApp.prepare().then(() => {
         app.use(router);
     }
 
-    app.get("*", (req, res) => {
-        res.redirect("https://sixfalls.me/");
-    });
-
     app.get("/admin/*", (req, res) => {
         return nextHandler(req, res);
+    });
+
+    app.get("*", (req, res) => {
+        res.redirect("https://sixfalls.me/");
     });
 
     app.listen(config.domain.port, () => {
