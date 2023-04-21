@@ -64,7 +64,7 @@ export default function Home() {
                             href={`https://cdn.sixfalls.me/${file.slug}`}
                             target="_blank"
                         >
-                            <Card className="p-4 flex flex-col gap-2 lg:w-1/5">
+                            <Card className="p-4 flex flex-col gap-2">
                                 <CardTitle>{file.originalName}</CardTitle>
                                 <CardDescription>
                                     {file.mimetype}, {formatBytes(file.size)}
