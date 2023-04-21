@@ -40,7 +40,7 @@ export default function Home() {
     const { data: files, error } = useSWR(
         `/api/files/list?skip=${
             ItemsPerPage * (pageNumber - 1)
-        }&limit=${ItemsPerPage}`,
+        }&take=${ItemsPerPage}`,
         JSONFetcher
     );
 
