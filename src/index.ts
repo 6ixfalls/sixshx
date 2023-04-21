@@ -48,7 +48,7 @@ nextApp.prepare().then(() => {
         app.use(router);
     }
 
-    app.get(/^\/admin($|\/)/, (req, res) => {
+    app.get("/admin*", (req, res) => {
         return nextHandler(req, res);
     });
 
