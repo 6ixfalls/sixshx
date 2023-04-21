@@ -7,8 +7,9 @@
     "start": "cd dist/ && node index.js",
     "clean": "rimraf dist/",
     "test": "npm run build && cd dist/ && node index.js",
-    "build": "npm run clean && tsc && npm run build:copy",
-    "build:copy": "copyfiles -u 1 src/**/*.eta dist/"
+    "build": "npm run clean && tsc && npm run build:copy && npm run build:frontend",
+    "build:copy": "copyfiles -u 1 src/**/*.eta dist/",
+    "build:frontend": "cd frontend/ && npm run build"
   },
   "author": "6ixfalls",
   "license": "GNU GPLv3",
