@@ -55,52 +55,46 @@ export default function Home() {
 
     return (
         <div className="p-4">
-            <div className="flex flex-col gap-2 pb-4">
-                <div className="flex flex-row gap-4">
-                    {!error &&
-                        files &&
-                        files.map((file: any) => (
-                            <Link
-                                key={file.id}
-                                href={`https://cdn.sixfalls.me/${file.slug}`}
-                                target="_blank"
-                            >
-                                <Card className="p-4 flex flex-col gap-2 lg:w-1/5">
-                                    <CardTitle>{file.originalName}</CardTitle>
-                                    <CardDescription>
-                                        {file.mimetype},{" "}
-                                        {formatBytes(file.size)}
-                                    </CardDescription>
-                                    <CardContent>
-                                        {file.mimetype.startsWith("image/") ? (
-                                            <Image
-                                                src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
-                                                alt="image"
-                                                width={512}
-                                                height={512}
-                                                className="aspect-video object-contain w-full"
-                                            />
-                                        ) : file.mimetype.startsWith(
-                                              "video/"
-                                          ) ? (
-                                            <video
-                                                src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
-                                                width={512}
-                                                height={512}
-                                                className="aspect-video object-contain w-full"
-                                            />
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </CardContent>
-                                    <CardDescription>
-                                        Uploaded by{" "}
-                                        <kbd>{file.user.username}</kbd>
-                                    </CardDescription>
-                                </Card>
-                            </Link>
-                        ))}
-                </div>
+            <div className="grid grid-cols-4 gap-2 pb-4">
+                {!error &&
+                    files &&
+                    files.map((file: any) => (
+                        <Link
+                            key={file.id}
+                            href={`https://cdn.sixfalls.me/${file.slug}`}
+                            target="_blank"
+                        >
+                            <Card className="p-4 flex flex-col gap-2 lg:w-1/5">
+                                <CardTitle>{file.originalName}</CardTitle>
+                                <CardDescription>
+                                    {file.mimetype}, {formatBytes(file.size)}
+                                </CardDescription>
+                                <CardContent>
+                                    {file.mimetype.startsWith("image/") ? (
+                                        <Image
+                                            src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
+                                            alt="image"
+                                            width={512}
+                                            height={512}
+                                            className="aspect-video object-contain w-full"
+                                        />
+                                    ) : file.mimetype.startsWith("video/") ? (
+                                        <video
+                                            src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
+                                            width={512}
+                                            height={512}
+                                            className="aspect-video object-contain w-full"
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
+                                </CardContent>
+                                <CardDescription>
+                                    Uploaded by <kbd>{file.user.username}</kbd>
+                                </CardDescription>
+                            </Card>
+                        </Link>
+                    ))}
             </div>
 
             <div className="flex flex-row w-auto justify-center">
