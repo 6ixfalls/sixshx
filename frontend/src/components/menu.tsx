@@ -42,7 +42,10 @@ export function Navbar() {
         fetch(...args).then(async (res) => {
             return {
                 ...(await res.json()),
-                userToken: getCookie("userToken"),
+                userToken: getCookie("userToken", {
+                    sameSite: "lax",
+                    secure: true,
+                }),
             };
         })
     );
@@ -53,9 +56,9 @@ export function Navbar() {
         const formData = new FormData(event.currentTarget);
         const token = formData.get("userToken");
         if (token === "") {
-            deleteCookie("userToken");
+            deleteCookie("userToken", { sameSite: "lax", secure: true });
         } else {
-            setCookie("userToken", token);
+            setCookie("userToken", token, { sameSite: "lax", secure: true });
         }
 
         const decoded = decode(token as string) as JwtPayload;

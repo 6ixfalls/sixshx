@@ -4,7 +4,7 @@ const nextConfig = {
   basePath: '/admin',
   images: {
     domains: ['s3.sixfalls.me'],
-  },
+  }
 }
 
 module.exports = nextConfig
