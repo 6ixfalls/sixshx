@@ -3,6 +3,7 @@ import helmet from "helmet";
 import fs from "fs";
 import * as eta from "eta";
 import next from "next";
+import cookieParser from "cookie-parser";
 import logger from "./logger";
 import Bot from "./bot";
 import prisma from "./database";
@@ -44,6 +45,8 @@ nextApp.prepare().then(() => {
         const router = require(`./routers/${file}`).default;
         app.use(router);
     }
+
+    app.use(cookieParser());
 
     app.get("/admin/*", (req, res) => {
         return nextHandler(req, res);
