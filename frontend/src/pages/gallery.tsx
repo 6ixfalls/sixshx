@@ -90,6 +90,8 @@ export default function Home() {
                                     )}
                                 </CardContent>
                                 <CardDescription>
+                                    Uploaded at{" "}
+                                    {new Date(file.createdAt).toLocaleString()}
                                     Uploaded by <kbd>{file.user.username}</kbd>
                                 </CardDescription>
                             </Card>
