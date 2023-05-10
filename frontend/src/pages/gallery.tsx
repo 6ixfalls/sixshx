@@ -83,6 +83,7 @@ export default function Home() {
                                             width={512}
                                             height={512}
                                             className="aspect-video object-contain w-full"
+                                            crossorigin="anonymous"
                                         >
                                             <source
                                                 src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
