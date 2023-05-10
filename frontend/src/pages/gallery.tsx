@@ -80,11 +80,15 @@ export default function Home() {
                                         />
                                     ) : file.mimetype.startsWith("video/") ? (
                                         <video
-                                            src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
                                             width={512}
                                             height={512}
                                             className="aspect-video object-contain w-full"
-                                        />
+                                        >
+                                            <source
+                                                src={`https://s3.sixfalls.me/${file.id}.${file.extension}`}
+                                                type={file.mimetype}
+                                            ></source>
+                                        </video>
                                     ) : (
                                         <></>
                                     )}
@@ -92,6 +96,7 @@ export default function Home() {
                                 <CardDescription>
                                     Uploaded at{" "}
                                     {new Date(file.createdAt).toLocaleString()}
+                                    <br />
                                     Uploaded by <kbd>{file.user.username}</kbd>
                                 </CardDescription>
                             </Card>
