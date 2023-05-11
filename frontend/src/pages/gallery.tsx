@@ -57,7 +57,7 @@ export default function Home() {
         <div className="p-4">
             <div className="grid grid-cols-4 gap-2 pb-4">
                 {!error &&
-                    files &&
+                    files && Array.isArray(files) &&
                     files.map((file: any) => (
                         <Link
                             key={file.id}
