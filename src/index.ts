@@ -39,6 +39,10 @@ nextApp.prepare().then(() => {
 
     app.use(cookieParser());
 
+    app.get(/^\/admin($|\/)/, (req, res) => {
+        return nextHandler(req, res);
+    });
+
     const routerFiles = fs
         .readdirSync("./routers")
         .filter((file) => file.endsWith(".js"));
@@ -47,15 +51,6 @@ nextApp.prepare().then(() => {
         const router = require(`./routers/${file}`).default;
         app.use(router);
     }
-
-    app.get("/admin", (req, res) => {
-        console.log("handled by nextjs");
-        return nextHandler(req, res);
-    });
-    app.get("/admin/*", (req, res) => {
-        console.log("handled by nextjs");
-        return nextHandler(req, res);
-    });
 
     app.get("*", (req, res) => {
         res.redirect("https://sixfalls.me/");
