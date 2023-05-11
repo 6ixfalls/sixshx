@@ -49,9 +49,11 @@ nextApp.prepare().then(() => {
     }
 
     app.get("/admin", (req, res) => {
+        console.log("handled by nextjs");
         return nextHandler(req, res);
     });
     app.get("/admin/*", (req, res) => {
+        console.log("handled by nextjs");
         return nextHandler(req, res);
     });
 
