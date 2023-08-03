@@ -46,7 +46,14 @@ export default class Bot {
             }
 
             try {
-                await command.run(this.client, interaction);
+                if (interaction.member.roles.cache.some(role => role.id === config.discord.adminRole)) {
+                    await command.run(this.client, interaction);
+                } else {
+                    await interaction.reply({
+                        content: "no no no"
+                    })
+                }
+              
             } catch (error) {
                 logger.error(error);
                 await interaction.reply({
