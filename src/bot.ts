@@ -1,4 +1,4 @@
-import { Client, Collection, Intents } from "discord.js";
+import { Client, Collection, Intents, Role } from "discord.js";
 import fs from "fs";
 import logger from "./logger";
 import config from "./config";
@@ -46,12 +46,13 @@ export default class Bot {
             }
 
             try {
+                //@ts-ignore
                 if (interaction.member.roles.cache.some(role => role.id === config.discord.adminRole)) {
                     await command.run(this.client, interaction);
                 } else {
                     await interaction.reply({
                         content: "no no no"
-                    })
+                    });
                 }
               
             } catch (error) {
