@@ -21,6 +21,7 @@ export default {
         clientId: process.env.DISCORD_CLIENTID,
         guildId: process.env.DISCORD_GUILDID,
         logChannel: process.env.DISCORD_LOGCHANNEL,
+        adminRole: process.env.DISCORD_ADMINROLEID,
     },
     jwt: {
         secret: process.env.JWT_SECRET,
