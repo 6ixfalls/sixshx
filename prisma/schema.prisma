@@ -14,16 +14,55 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model File {
+    upload       Upload @relation(fields: [slug], references: [slug])
+    slug         String @id
+    mimetype     String
+    extension    String
+    originalName String @map("original_name")
+
+    vibrant String
+    size    Int
+
+    opengraphAuthor   String
+    opengraphProvider String
+
+    @@map("files")
+}
+
+model Link {
+    upload Upload @relation(fields: [slug], references: [slug])
+    slug   String @id
+    url    String
+}
+
+model Upload {
+    id         String   @id @default(cuid())
+    slug       String   @unique
+    domain     Domain   @relation(fields: [domainHost], references: [host], onDelete: Cascade)
+    domainHost String
+    createdAt  DateTime @default(now()) @map("created_at")
+    updatedAt  DateTime @updatedAt
+    timezone   String   @default("UTC+0")
+
+    deleteToken String @unique @default(cuid()) @map("delete_token")
 
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
-    @@index([name])
+    file File?
+    link Link?
+
+    @@index([slug])
+    @@map("uploads")
+}
+
+model Domain {
+    host    String   @id
+    uploads Upload[]
+
+    @@index([host])
+    @@map("domains")
 }
 
 // Necessary for Next auth
@@ -61,7 +100,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    uploads       Upload[]
 }
 
 model VerificationToken {
