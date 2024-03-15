@@ -15,11 +15,11 @@ datasource db {
 }
 
 model File {
-    upload       Upload @relation(fields: [slug], references: [slug])
-    slug         String @id
+    resource     Resource @relation(fields: [slug], references: [slug])
+    slug         String   @id
     mimetype     String
     extension    String
-    originalName String @map("original_name")
+    originalName String   @map("original_name")
 
     vibrant String
     size    Int
@@ -31,12 +31,12 @@ model File {
 }
 
 model Link {
-    upload Upload @relation(fields: [slug], references: [slug])
-    slug   String @id
-    url    String
+    resource Resource @relation(fields: [slug], references: [slug])
+    slug     String   @id
+    url      String
 }
 
-model Upload {
+model Resource {
     id         String   @id @default(cuid())
     slug       String   @unique
     domain     Domain   @relation(fields: [domainHost], references: [host], onDelete: Cascade)
@@ -50,16 +50,18 @@ model Upload {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
+    views Int
+
     file File?
     link Link?
 
     @@index([slug])
-    @@map("uploads")
+    @@map("resources")
 }
 
 model Domain {
-    host    String   @id
-    uploads Upload[]
+    host      String     @id
+    resources Resource[]
 
     @@index([host])
     @@map("domains")
@@ -93,14 +95,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    uploads       Upload[]
+    resources     Resource[]
 }
 
 model VerificationToken {

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Button } from "~/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,12 +9,8 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
-import { EnterIcon } from "@radix-ui/react-icons";
-import { signIn } from "next-auth/react";
 
-export function Navbar() {
-  const loggedIn = false;
-
+export function Navbar({ children }: React.PropsWithChildren) {
   return (
     <NavigationMenu className="max-w-none justify-between border-b p-2 px-4">
       <NavigationMenuList>
@@ -34,13 +29,7 @@ export function Navbar() {
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
-      {loggedIn ? (
-        <></>
-      ) : (
-        <Button variant="outline" onClick={() => signIn("discord")}>
-          <EnterIcon className="mr-2 h-4 w-4" /> Login
-        </Button>
-      )}
+      {children}
     </NavigationMenu>
   );
 }
