@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
+import NextUIProvider from "~/components/NextUIProvider";
 import { Toaster } from "~/components/ui/toaster";
 
 const inter = Inter({
@@ -22,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} dark`}>
-        {children}
-        <Toaster />
+        <NextUIProvider>
+          {children}
+          <Toaster />
+        </NextUIProvider>
       </body>
     </html>
   );

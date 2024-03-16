@@ -1,11 +1,10 @@
 "use server";
 
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
+import { getServerAuthSession } from "~/server/auth";
 import { Avatar } from "./avatar";
 
 export async function User() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerAuthSession();
 
   return (
     session && (

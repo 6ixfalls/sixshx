@@ -3,12 +3,11 @@
 import { type PropsWithChildren } from "react";
 import { Navbar } from "~/components/navbar";
 import { User } from "~/components/user";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
+import { getServerAuthSession } from "~/server/auth";
 import { redirect } from "next/navigation";
 
 export default async function App({ children }: PropsWithChildren) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerAuthSession();
 
   if (!session) {
     redirect("/login");

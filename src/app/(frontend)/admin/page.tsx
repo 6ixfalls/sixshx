@@ -4,12 +4,11 @@ import {
   FileIcon,
   Link2Icon,
 } from "@radix-ui/react-icons";
-import { getServerSession } from "next-auth";
-import { authOptions } from "~/server/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerAuthSession();
 
   return (
     <div>
