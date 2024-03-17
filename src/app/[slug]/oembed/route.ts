@@ -25,5 +25,5 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
         ogType: file.mimetype.startsWith("video") ? "video" : file.mimetype.startsWith("image") ? "photo" : "link",
         author_name: applyTemplate(file.opengraphAuthor, values),
         provider_name: applyTemplate(file.opengraphProvider, values),
-    })
+    });
 }

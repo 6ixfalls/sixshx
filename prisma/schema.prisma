@@ -50,7 +50,7 @@ model Resource {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
-    views Int
+    views Int @default(0)
 
     file File?
     link Link?
