@@ -1,3 +1,4 @@
+"use server";
 import {
   ArchiveIcon,
   EyeOpenIcon,
@@ -5,10 +6,70 @@ import {
   Link2Icon,
 } from "@radix-ui/react-icons";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { formatBytes, formatNumber } from "~/lib/resource";
 import { getServerAuthSession } from "~/server/auth";
+import { db } from "~/server/db";
 
 export default async function Page() {
   const session = await getServerAuthSession();
+  if (!session) return;
+  const files = await db.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      _count: {
+        select: {
+          resources: {
+            where: {
+              file: {
+                isNot: null,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  if (!files) return;
+  const filesSize = await db.$queryRaw<[{ total_file_size: number }]>`
+    SELECT SUM(f.size) AS total_file_size
+    FROM "resources" r
+    LEFT JOIN "files" f ON r."slug" = f."slug"
+    WHERE r."createdById" = ${session.user.id}
+    AND NOT EXISTS (
+      SELECT 1 
+      FROM "Link" l
+      WHERE l."slug" = r."slug"
+    );
+  `;
+  const links = await db.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      _count: {
+        select: {
+          resources: {
+            where: {
+              link: {
+                isNot: null,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  if (!links) return;
+  const views = await db.resource.aggregate({
+    where: {
+      createdById: session.user.id,
+    },
+    _sum: {
+      views: true,
+    },
+  });
 
   return (
     <div>
@@ -23,7 +84,9 @@ export default async function Page() {
               <FileIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">2.4K</div>
+              <div className="text-2xl font-bold">
+                {formatNumber(files._count.resources)}
+              </div>
               <p className="text-xs text-muted-foreground">files uploaded</p>
             </CardContent>
           </Card>
@@ -35,7 +98,9 @@ export default async function Page() {
               <ArchiveIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">142 GB</div>
+              <div className="text-2xl font-bold">
+                {formatBytes(Number(filesSize?.[0]?.total_file_size ?? 0))}
+              </div>
               <p className="text-xs text-muted-foreground">storage used</p>
             </CardContent>
           </Card>
@@ -47,7 +112,9 @@ export default async function Page() {
               <Link2Icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">924</div>
+              <div className="text-2xl font-bold">
+                {formatNumber(links._count.resources)}
+              </div>
               <p className="text-xs text-muted-foreground">links</p>
             </CardContent>
           </Card>
@@ -57,7 +124,9 @@ export default async function Page() {
               <EyeOpenIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">596.2K</div>
+              <div className="text-2xl font-bold">
+                {formatNumber(views._sum.views ?? 0)}
+              </div>
               <p className="text-xs text-muted-foreground">link views</p>
             </CardContent>
           </Card>

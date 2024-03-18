@@ -32,3 +32,8 @@ export function formatBytes(bytes: number, decimals = 2) {
         .toString()
         .concat(` ${sizes[i]}`);
 }
+
+const formatter = Intl.NumberFormat('en', { notation: 'compact' });
+export function formatNumber(number: number) {
+    return formatter.format(number);
+}

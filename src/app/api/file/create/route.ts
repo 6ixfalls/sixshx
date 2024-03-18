@@ -78,11 +78,39 @@ export async function POST(req: NextRequest) {
         dominant = getRandomColor();
     }
 
+    let domain = req.headers.get("X-Domain");
+    if (domain) {
+        const domainRecord = await db.domain.findUnique({
+            where: {
+                host: domain
+            }
+        });
+        if (domainRecord) {
+            domain = domainRecord.host;
+        } else {
+            domain = null;
+        }
+    }
+
+    if (!domain) {
+        const domainCount = await db.domain.count();
+        const domainRecord = await db.domain.findFirst({
+            skip: Math.floor(Math.random() * domainCount)
+        });
+        if (domainRecord) {
+            domain = domainRecord.host;
+        }
+    }
+
+    if (!domain) {
+        return new Response("No domains available", { status: 500 });
+    }
+
     console.log("Pushing file to database");
     const resource = await db.resource.create({
         data: {
             slug,
-            domainHost: "sixfal.ls",
+            domainHost: domain,
             timezone: req.headers.get("X-TimeOffset") ?? undefined,
             createdById: user.id,
             file: {
